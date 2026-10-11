@@ -3,7 +3,7 @@ import Link from "next/link";
 export function Footer() {
   return (
     <footer className="border-t border-forest-100 bg-forest-700 text-cream">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-14 md:grid-cols-3">
+      <div className="mx-auto grid max-w-7xl gap-6 px-6 py-10 md:grid-cols-3 md:gap-10 md:py-14">
         <div>
           <h3 className="font-display text-2xl text-gold-500">IFOKANBALE</h3>
           <p className="mt-3 text-sm text-cream/70">
@@ -15,7 +15,7 @@ export function Footer() {
           <h4 className="text-sm font-medium tracking-wide text-gold-500">
             EXPLORE
           </h4>
-          <ul className="mt-4 space-y-2 text-sm text-cream/80">
+          <ul className="mt-3 space-y-1.5 text-sm text-cream/80">
             <li><Link href="/category/beds" className="hover:text-gold-500">Beds</Link></li>
             <li><Link href="/category/sofas" className="hover:text-gold-500">Sofas</Link></li>
             <li><Link href="/category/tables" className="hover:text-gold-500">Tables</Link></li>

@@ -43,6 +43,7 @@ export async function createProduct(formData: FormData) {
   const stockStatus = String(formData.get("stockStatus") ?? "IN_STOCK");
   const isFeatured = formData.get("isFeatured") === "on";
   const isActive = formData.get("isActive") === "on";
+  const coverImage = String(formData.get("coverImage") ?? "").trim();
   const imageUrls = String(formData.get("imageUrls") ?? "")
     .split("\n")
     .map((s) => s.trim())
@@ -75,6 +76,14 @@ export async function createProduct(formData: FormData) {
     },
   });
 
+  // If admin picked a cover image for this category, save it
+  if (coverImage) {
+    await prisma.category.update({
+      where: { id: categoryId },
+      data: { imageUrl: coverImage },
+    });
+  }
+
   revalidatePath("/admin/products");
   revalidatePath("/");
   revalidatePath("/category/[slug]", "page");
@@ -91,6 +100,7 @@ export async function updateProduct(id: string, formData: FormData) {
   const stockStatus = String(formData.get("stockStatus") ?? "IN_STOCK");
   const isFeatured = formData.get("isFeatured") === "on";
   const isActive = formData.get("isActive") === "on";
+  const coverImage = String(formData.get("coverImage") ?? "").trim();
   const imageUrls = String(formData.get("imageUrls") ?? "")
     .split("\n")
     .map((s) => s.trim())
@@ -127,6 +137,14 @@ export async function updateProduct(id: string, formData: FormData) {
         sortOrder: i,
         altText: name,
       })),
+    });
+  }
+
+  // If admin picked a cover image for this category, save it
+  if (coverImage) {
+    await prisma.category.update({
+      where: { id: categoryId },
+      data: { imageUrl: coverImage },
     });
   }
 

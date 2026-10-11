@@ -99,14 +99,46 @@ export function HeroIntro() {
         />
 
         {/* Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1.85, ease: "easeOut" }}
-          className="mt-6 text-[10px] tracking-[0.45em] text-gold-500 sm:text-sm sm:tracking-[0.55em]"
-        >
-          {SUBTITLE}
-        </motion.p>
+        {/* Subtitle */}
+<motion.p
+  initial={{ opacity: 0, y: 12 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.7, delay: 1.85, ease: "easeOut" }}
+  className="mt-6 text-[10px] tracking-[0.45em] text-gold-500 sm:text-sm sm:tracking-[0.55em]"
+>
+  {SUBTITLE}
+</motion.p>
+
+{/* Tagline */}
+<motion.p
+  initial={{ opacity: 0, y: 12 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.7, delay: 2.15, ease: "easeOut" }}
+  className="mt-8 max-w-2xl text-base text-cream/90 sm:text-lg"
+>
+  Crafted for your comfort. Designed to last.
+</motion.p>
+
+{/* CTA buttons */}
+<motion.div
+  initial={{ opacity: 0, y: 12 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.7, delay: 2.45, ease: "easeOut" }}
+  className="mt-10 flex flex-col gap-3 sm:flex-row"
+>
+  <a
+    href="#collection"
+    className="rounded-full bg-gold-500 px-8 py-3 font-medium text-forest-900 transition hover:bg-gold-600"
+  >
+    Explore Collection
+  </a>
+  <a
+    href="/contact"
+    className="rounded-full border border-cream/40 px-8 py-3 font-medium text-cream transition hover:bg-cream/10"
+  >
+    Enquire Now
+  </a>
+</motion.div>
       </div>
 
       {/* Scroll cue */}

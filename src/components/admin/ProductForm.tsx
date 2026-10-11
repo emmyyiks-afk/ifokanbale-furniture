@@ -20,6 +20,7 @@ export function ProductForm({
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [coverImage, setCoverImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [imageUrls, setImageUrls] = useState<string[]>(
@@ -56,6 +57,7 @@ export function ProductForm({
 
   function removeImage(url: string) {
     setImageUrls((prev) => prev.filter((u) => u !== url));
+    if (coverImage === url) setCoverImage(null);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -67,6 +69,7 @@ export function ProductForm({
     try {
       const formData = new FormData(form);
       formData.set("imageUrls", imageUrls.join("\n"));
+      if (coverImage) formData.set("coverImage", coverImage);
       await onSubmit(formData);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -159,24 +162,52 @@ export function ProductForm({
         </p>
 
         {imageUrls.length > 0 && (
-          <div className="mb-5 grid grid-cols-3 gap-3 sm:grid-cols-4">
-            {imageUrls.map((url) => (
-              <div
-                key={url}
-                className="group relative aspect-square overflow-hidden rounded-lg border border-forest-100"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={url} alt="" className="h-full w-full object-cover" />
-                <button
-                  type="button"
-                  onClick={() => removeImage(url)}
-                  className="absolute right-1 top-1 rounded-full bg-red-600 px-2 py-0.5 text-xs text-white opacity-0 transition group-hover:opacity-100"
-                  aria-label="Remove image"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
+          <div className="mb-6">
+            <p className="mb-3 text-xs text-forest-500">
+              Tap <strong>Set as cover</strong> on the photo you want to
+              represent this product&apos;s category on the homepage carousel.
+            </p>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {imageUrls.map((url) => {
+                const isCover = coverImage === url;
+                return (
+                  <div
+                    key={url}
+                    className={`group overflow-hidden rounded-lg border-2 transition ${
+                      isCover ? "border-gold-500" : "border-forest-100"
+                    }`}
+                  >
+                    <div className="relative aspect-square">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={url}
+                        alt=""
+                        className="h-full w-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(url)}
+                        className="absolute right-1 top-1 rounded-full bg-red-600 px-2 py-0.5 text-xs text-white opacity-0 transition group-hover:opacity-100"
+                        aria-label="Remove image"
+                      >
+                        ×
+                      </button>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setCoverImage(isCover ? null : url)}
+                      className={`w-full py-1.5 text-[11px] font-medium transition ${
+                        isCover
+                          ? "bg-gold-500 text-forest-900"
+                          : "bg-forest-50 text-forest-600 hover:bg-forest-100"
+                      }`}
+                    >
+                      {isCover ? "★ Cover" : "Set as cover"}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
 
