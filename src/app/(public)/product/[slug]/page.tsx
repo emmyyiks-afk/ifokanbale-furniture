@@ -33,10 +33,17 @@ export default async function ProductPage({
     }),
   ]);
 
-  const whatsapp = setting?.whatsapp ?? "2348068238642";
-  const phone = setting?.phone ?? "2348068238642";
+  // Sanitize the WhatsApp number: strip +, spaces, dashes — keep digits only
+  const rawWhatsapp = setting?.whatsapp ?? "2348068238642";
+  const whatsapp = rawWhatsapp.replace(/\D/g, "");
+
+  // Phone display — keep pretty format if it exists, fallback otherwise
+  const phone = setting?.phone ?? "+234 806 823 8642";
+
   const waMessage = encodeURIComponent(
-    `Hi, I'm interested in "${product.name}" (₦${Number(product.price).toLocaleString()}). Is it available?`
+    `Hi, I'm interested in "${product.name}" (₦${Number(
+      product.price
+    ).toLocaleString()}). Is it available?`
   );
 
   return (
@@ -44,7 +51,9 @@ export default async function ProductPage({
       <div className="mx-auto max-w-7xl px-6 py-10">
         {/* Breadcrumb */}
         <nav className="text-sm text-forest-500">
-          <Link href="/" className="hover:text-gold-600">Home</Link>
+          <Link href="/" className="hover:text-gold-600">
+            Home
+          </Link>
           <span className="mx-2">/</span>
           <Link
             href={`/category/${product.category.slug}`}
@@ -66,6 +75,7 @@ export default async function ProductPage({
                   alt={product.images[0].altText ?? product.name}
                   fill
                   priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                 />
               ) : (
@@ -86,6 +96,7 @@ export default async function ProductPage({
                       src={img.url}
                       alt={img.altText ?? product.name}
                       fill
+                      sizes="25vw"
                       className="object-cover"
                     />
                   </div>
@@ -136,7 +147,7 @@ export default async function ProductPage({
                 Enquire on WhatsApp
               </a>
               <a
-                href={`tel:${phone.replace(/\s/g, "")}`}
+                href={`tel:${phone.replace(/[^\d+]/g, "")}`}
                 className="block w-full rounded-full border border-forest-300 px-6 py-4 text-center font-medium text-forest-700 transition hover:bg-forest-50"
               >
                 Call {phone}
@@ -171,6 +182,7 @@ export default async function ProductPage({
                         src={p.images[0].url}
                         alt={p.name}
                         fill
+                        sizes="(max-width: 768px) 50vw, 25vw"
                         className="object-cover transition group-hover:scale-105"
                       />
                     ) : (
@@ -180,7 +192,9 @@ export default async function ProductPage({
                     )}
                   </div>
                   <div className="p-3">
-                    <p className="text-sm font-medium text-forest-700">{p.name}</p>
+                    <p className="text-sm font-medium text-forest-700">
+                      {p.name}
+                    </p>
                     <p className="mt-1 text-xs text-forest-600">
                       ₦{Number(p.price).toLocaleString()}
                     </p>

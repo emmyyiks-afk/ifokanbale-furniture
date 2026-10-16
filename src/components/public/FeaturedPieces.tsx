@@ -17,7 +17,7 @@ export async function FeaturedPieces() {
     prisma.setting.findUnique({ where: { id: "singleton" } }),
   ]);
 
-  const whatsapp = setting?.whatsapp ?? "2348068238642";
+  const whatsapp = (setting?.whatsapp ?? "2348068238642").replace(/\D/g, "");
 
   // Fallback: if no featured products yet, show the latest 8 active products
   const fallback =
